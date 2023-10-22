@@ -38,6 +38,7 @@ def file_processing(file_path):
     documents = [Document(page_content=t) for t in chunks]
     return documents
 
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def llm_pipeline(file_path):
     documents = file_processing(file_path)
     embeddings = HuggingFaceBgeEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
@@ -49,7 +50,7 @@ def llm_pipeline(file_path):
     return answer_generation_chain
 
 def run_app():
-    st.title("Question Answer Generator using Mistral 7B")
+    st.title("Question over PDF using HF")
 
     uploaded_file = st.file_uploader("Upload your PDF file here", type=['pdf'])
 
